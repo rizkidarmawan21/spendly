@@ -1,0 +1,38 @@
+version: "3.9"
+
+networks:
+  spendly:
+    name: spendly
+
+services:
+  app:
+    container_name: spendly-app
+    image: spendly/spendly-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:9000"
+    volumes:
+      - ./:/var/www/spendly
+      - ./.env:/var/www/spendly/.env
+    depends_on:
+      - postgres
+    networks:
+      - spendly
+
+  postgres:
+    image: postgres:latest
+    container_name: spendly-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=spendly
+    volumes:
+      - ./docker/postgres/data:/var/lib/postgres/data
+    networks:
+      - spendly
