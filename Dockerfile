@@ -57,15 +57,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 # Set working directory
 WORKDIR /var/www/spendly
 
-# Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
-
 # Copy existing application directory contents
 COPY . /var/www/spendly
 
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www/spendly
+COPY --chown=www-data:www-data . /var/www/spendly
 
 # install laravel application
 RUN composer install
@@ -74,7 +70,7 @@ RUN composer install
 RUN npm install && npm run build
 
 # Change current user to www
-USER www
+USER www-data
 
 # Set port for application
 EXPOSE 9000
