@@ -16,7 +16,7 @@ class AccountCategoryController extends Controller
     public function index(): View
     {
         return view('pages.category.index', [
-            'categories' => AccountCategory::paginate(10)
+            'categories' => AccountCategory::all()
         ]);
     }
 
@@ -53,19 +53,35 @@ class AccountCategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AccountCategory $category)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, AccountCategory $category)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string',
+            'type' => 'required|in:debit,credit'
+        ]);
+
+        try {
+            $category->update($data);
+
+            session()->flash('notification', [
+                'variant' => 'success',
+                'title' => 'Success',
+                'message' => 'Category has been updated successfully.'
+            ]);
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            session()->flash('notification', [
+                'variant' => 'error',
+                'title' => 'Error',
+                'message' => 'Something went wrong in our server. Please try again later.'
+            ]);
+            Log::error($e->getMessage());
+
+            return redirect()->back();
+        }
     }
 
     /**

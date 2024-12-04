@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         AccountCategory::insert([
-            ['name' => 'Salary', 'type' => 'credit'],
-            ['name' => 'Other Income', 'type' => 'credit'],
-            ['name' => 'Family Expense', 'type' => 'debit'],
-            ['name' => 'Transport Expense', 'type' => 'debit'],
-            ['name' => 'Meal Expense', 'type' => 'debit'],
+            ['id' => 1, 'name' => 'Salary', 'type' => 'credit', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'name' => 'Other Income', 'type' => 'credit', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'name' => 'Family Expense', 'type' => 'debit', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 4, 'name' => 'Transport Expense', 'type' => 'debit', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 5, 'name' => 'Meal Expense', 'type' => 'debit', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
