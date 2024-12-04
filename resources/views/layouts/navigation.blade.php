@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Account Category') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')">
+                        {{ __('My Account') }}
+                    </x-nav-link>
                 </div>
             </div>
 

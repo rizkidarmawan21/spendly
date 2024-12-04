@@ -4,13 +4,11 @@
     displayDuration: 8000,
     soundEffect: true,
     init() {
-        @if (session('notification'))
-            this.addNotification({
+        @if (session('notification')) this.addNotification({
                 variant: '{{ session('notification')['variant'] }}',
                 title: '{{ session('notification')['title'] }}',
                 message: '{{ session('notification')['message'] }}'
-            });
-        @endif
+            }); @endif
     },
     addNotification({ variant = 'info', sender = null, title = null, message = null }) {
         const id = Date.now()

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Account Category') }}
+            {{ __('My Account') }}
         </h2>
     </x-slot>
 
@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100 space-y-5">
                     <button @click="modalIsOpen = true; selectedData=null" type="button"
                         class="bg-sky-500 hover:bg-sky-700 text-white font-semibold py-2 px-4 rounded">
-                        Add Category
+                        Add Account
                     </button>
                     <div class="overflow-x-auto">
                         <table
@@ -19,26 +19,30 @@
                             <thead class="bg-gray-100">
                                 <tr>
                                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">#</th>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Code</th>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Category</th>
                                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
-                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Type</th>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Balance</th>
                                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                @forelse ($categories as $item)
+                                @forelse ($accounts as $item)
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4">
                                             {{ $loop->iteration }}
                                         </td>
                                         <td class="px-6 py-4">
+                                            {{ $item->code }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $item->category->name }}
+                                        </td>
+                                        <td class="px-6 py-4">
                                             {{ $item->name }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <span
-                                                class="inline-block px-2 py-1 text-xs font-semibold rounded-full capitalize
-                                            {{ $item->type === 'credit' ? 'bg-teal-500 text-white' : 'bg-rose-500 text-white' }}">
-                                                {{ $item->type }}
-                                            </span>
+                                            Rp. {{ number_format($item->balance, 0, ',', '.') }}
                                         </td>
                                         <td class="px-6 py-4">
 
@@ -52,7 +56,7 @@
                                     </tr>
                                 @empty
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-10 text-center" colspan="4">
+                                        <td class="px-6 py-10 text-center" colspan="6">
                                             No data record
                                         </td>
                                     </tr>
@@ -64,22 +68,22 @@
                 </div>
             </div>
         </div>
-        @include('pages.category.modal')
-        @include('pages.category.partials.delete')
+        @include('pages.account.modal')
+        @include('pages.account.partials.delete')
     </div>
 
     <script>
         function openModal(e) {
             e.preventDefault();
             const button = e.target;
-            const categoryId = button.getAttribute('data-id');
+            const id = button.getAttribute('data-id');
             button.dispatchEvent(new CustomEvent('open-modal', {
-                detail: 'confirm-category-deletion',
+                detail: 'confirm-account-deletion',
                 bubbles: true
             }));
             button.dispatchEvent(new CustomEvent('selected-id', {
                 detail: {
-                    id: categoryId
+                    id: id
                 },
                 bubbles: true
             }));
