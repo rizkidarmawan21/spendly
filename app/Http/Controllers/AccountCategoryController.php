@@ -42,7 +42,7 @@ class AccountCategoryController extends Controller
             return redirect()->back();
         } catch (\Exception $e) {
             session()->flash('notification', [
-                'variant' => 'error',
+                'variant' => 'danger',
                 'title' => 'Error',
                 'message' => 'Something went wrong in our server. Please try again later.'
             ]);
@@ -57,10 +57,12 @@ class AccountCategoryController extends Controller
      */
     public function update(Request $request, AccountCategory $category)
     {
-        $data = $request->validate([
+        $request->validate([
             'name' => 'required|string',
             'type' => 'required|in:debit,credit'
         ]);
+
+        $data = $request->only(['name', 'type']);
 
         try {
             $category->update($data);
@@ -74,7 +76,7 @@ class AccountCategoryController extends Controller
             return redirect()->back();
         } catch (\Exception $e) {
             session()->flash('notification', [
-                'variant' => 'error',
+                'variant' => 'danger',
                 'title' => 'Error',
                 'message' => 'Something went wrong in our server. Please try again later.'
             ]);
@@ -101,7 +103,7 @@ class AccountCategoryController extends Controller
             return redirect()->back();
         } catch (\Exception $e) {
             session()->flash('notification', [
-                'variant' => 'error',
+                'variant' => 'danger',
                 'title' => 'Error',
                 'message' => 'Something went wrong in our server. Please try again later.'
             ]);
