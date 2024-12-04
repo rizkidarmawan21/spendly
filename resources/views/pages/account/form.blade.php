@@ -28,7 +28,7 @@
             @endforelse
         </select>
 
-        <x-input-error :messages="$errors->get('name')" for="name" />
+        <x-input-error :messages="$errors->get('category_id')" for="name" />
     </div>
 
     <div class="flex w-full flex-col gap-1 text-neutral-600 dark:text-neutral-300">

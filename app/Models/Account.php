@@ -14,6 +14,11 @@ class Account extends Model
         return $this->belongsTo(AccountCategory::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

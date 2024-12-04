@@ -74,7 +74,7 @@ class AccountController extends Controller
 
         try {
             $data = $request->only(['name', 'code', 'category_id']);
-            
+
             $account->update($data);
 
             session()->flash('notification', [
@@ -134,10 +134,11 @@ class AccountController extends Controller
                 $query->where('type', $category->type);
             })->count();
 
-        $code = '';
+
+        $code = 0;
 
         if ($count === 0) {
-            $code = $initCode . '01';
+            $code = (int) $initCode . '01';
         } else {
             do {
                 // Fetch the last account with the same category type
@@ -148,9 +149,11 @@ class AccountController extends Controller
                     ->first();
 
                 // Get the last code, increment it and prepare the new code
-                $lastCode = $code ?? $lastAccount->code;
+                $lastCode = $code ?: $lastAccount->code;
                 $lastCode = (int) $lastCode;
                 $lastCode = $lastCode + 1;
+
+                $code = $lastCode;
 
                 // Set the code for the new account
             } while (Account::where('code', $code)->exists()); // Check if the generated code already exists
