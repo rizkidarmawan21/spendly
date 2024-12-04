@@ -7,10 +7,11 @@
         <label for="account_id" class="w-fit pl-0.5 text-sm">Account*</label>
         <select id="account_id" name="account_id"
             class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white"
-            x-model="selectedAccount" @change="updateAccountDetails()">
+            x-model="selectedAccount" @change="updateAccountDetails()" :readonly="isEdit">
             <option value="">Please Select</option>
             @forelse ($accounts as $item)
-                <option value="{{ $item->id }}">
+                <option value="{{ $item->id }}"
+                    :selected="selectedData ? selectedData.account_id === {{ $item->id }} : ''">
                     {{ $item->code }} - {{ $item->name }}
                 </option>
             @empty
