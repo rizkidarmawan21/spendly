@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReportExport;
 use App\Models\AccountCategory;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -27,6 +29,22 @@ class DashboardController extends Controller
             'expenses' => $expenses,
             'netIncome' => $netIncome,
         ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $filter = $request->input('filter', 'week');
+
+        if ($filter !== 'week' && $filter !== 'month' && $filter !== 'year') {
+            $filter = 'week';
+        }
+
+        $headers = $this->getHeaderTable($filter);
+        $incomes = $this->getData($filter, 'credit');
+        $expenses = $this->getData($filter, 'debit');
+        $netIncome = $this->getNeIncome($incomes, $expenses);
+
+        return Excel::download(new ReportExport($filter, $headers, $incomes, $expenses, $netIncome), 'report.xlsx');
     }
 
     private function getData($filter, $type)

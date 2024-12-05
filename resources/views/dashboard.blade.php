@@ -12,30 +12,35 @@
                     {{ __("You're logged in!") }}
                 </div>
             </div>
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg" x-data="filter()">
                 <div class="p-6 text-gray-900 dark:text-gray-100 space-y-3">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl font-semibold">Reports ✨</h3>
 
-                        <div x-data="handleFilter()"
-                            class="relative flex w-1/6 flex-col gap-1 text-neutral-600 dark:text-neutral-300">
-                            <label for="type" class="w-fit pl-0.5 text-sm">Filter By</label>
-                            <select id="type" name="type"
-                                class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white"
-                                x-model="filter" @change="handleFilter()">
-                                <option value="">Please Select</option>
-                                <option value="week" :selected="selectedFilter === 'week'">This Week</option>
-                                <option value="month" :selected="selectedFilter === 'month'">This Month</option>
-                                <option value="year" :selected="selectedFilter === 'year'">This Year</option>
-                            </select>
+                        <div class="flex justify-between items-center gap-5 w-1/4">
+                            <x-primary-button @click="handleExport()">
+                                {{ __('Export Excel') }}
+                            </x-primary-button>
+                            <div class="relative flex w-full flex-col gap-1 text-neutral-600 dark:text-neutral-300">
+                                <label for="type" class="w-fit pl-0.5 text-sm">Filter By</label>
+                                <select id="type" name="type"
+                                    class="w-full appearance-none rounded-md border border-neutral-300 bg-neutral-50 px-4 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:focus-visible:outline-white"
+                                    x-model="filter" @change="handleFilter()">
+                                    <option value="">Please Select</option>
+                                    <option value="week" :selected="selectedFilter === 'week'">This Week
+                                    </option>
+                                    <option value="month" :selected="selectedFilter === 'month'">This Month
+                                    </option>
+                                    <option value="year" :selected="selectedFilter === 'year'">This Year
+                                    </option>
+                                </select>
 
-                            <x-input-error :messages="$errors->get('type')" for="type" />
+                                <x-input-error :messages="$errors->get('type')" for="type" />
+                            </div>
                         </div>
-
                     </div>
 
                     <div class="overflow-x-auto">
-
                         <table
                             class="min-w-full border-collapse border border-gray-300 bg-white text-left text-sm text-gray-500">
                             <thead class="bg-gray-100 border divide-y">
@@ -105,7 +110,7 @@
         </div>
     </div>
     <script>
-        function handleFilter() {
+        function filter() {
             return {
                 filter: 'week',
                 selectedFilter: new URLSearchParams(window.location.search).get('filter') || 'week',
@@ -114,6 +119,11 @@
                 handleFilter() {
                     // redirect to the selected filter
                     window.location.href = `?filter=${this.filter}`;
+                },
+
+                handleExport() {
+                    // redirect to the selected filter
+                    window.location.href = `/export/report?filter=${this.filter}`;
                 }
             }
         }
