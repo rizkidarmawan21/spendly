@@ -5,22 +5,22 @@ networks:
     name: spendly
 
 services:
-  app:
-    container_name: spendly-app
-    image: spendly/spendly-app:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "8080:9000"
-    volumes:
-      - ./:/var/www/spendly
-      - ./.env:/var/www/spendly/.env
-    depends_on:
-      - postgres
-    networks:
-      - spendly
+#   app:
+#     container_name: spendly-app
+#     image: spendly/spendly-app:latest
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     restart: always
+#     ports:
+#       - "8070:9000"
+#     volumes:
+#       - ./:/var/www/spendly
+#       - ./.env:/var/www/spendly/.env
+#     depends_on:
+#       - postgres
+#     networks:
+#       - spendly
 
   postgres:
     image: postgres:latest
