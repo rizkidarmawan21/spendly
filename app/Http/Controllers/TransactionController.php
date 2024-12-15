@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\AccountCategory;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,13 +16,16 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $accounts = Account::with([
-            'category' => fn($query) => $query->select(['id', 'type']),
-        ])->get();
+        $categoryWithAccount = AccountCategory::with('account')->whereHas('account')->get();
+        // $accounts = Account::with([
+        //     'category' => fn($query) => $query->select(['id', 'type']),
+        // ])->get();
+
+        // dd($categoryWithAccount);
 
         return view('pages.transaction.index', [
             'transactions' => Transaction::with(['account', 'account.category'])->get(),
-            'accounts' => $accounts
+            'accounts' => $categoryWithAccount
         ]);
     }
 

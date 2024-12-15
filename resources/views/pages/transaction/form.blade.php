@@ -10,10 +10,14 @@
             x-model="selectedAccount" @change="updateAccountDetails()" :readonly="isEdit">
             <option value="">Please Select</option>
             @forelse ($accounts as $item)
-                <option value="{{ $item->id }}"
-                    :selected="selectedData ? selectedData.account_id === {{ $item->id }} : ''">
-                    {{ $item->code }} - {{ $item->name }}
-                </option>
+                <optgroup label="{{ $item->name }}">
+                    @foreach ($item->account as $account)
+                        <option value="{{ $account->id }}"
+                            :selected="selectedData ? selectedData.account_id === {{ $account->id }} : ''">
+                            {{ $account->code }} - {{ $account->name }}
+                        </option>
+                    @endforeach
+                </optgroup>
             @empty
                 <option disabled>No data record</option>
             @endforelse
