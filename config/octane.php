@@ -220,5 +220,11 @@ return [
     */
 
     'max_execution_time' => 30,
+    'workers' => env('OCTANE_WORKERS', 20),
+    'max_requests' => env('OCTANE_MAX_REQUESTS', 10000),
+    'task_workers' => [
+        'enabled' => true,
+        'worker_num' => env('OCTANE_TASK_WORKERS', 20),
+    ],
 
 ];
