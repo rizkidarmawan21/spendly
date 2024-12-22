@@ -9,8 +9,6 @@ Alpine.plugin(focus)
 
 Alpine.start();
 
-// DARK MODE TOGGLE - Set default theme first
-localStorage.setItem("color-theme", "dark");
 
 var themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
 var themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
